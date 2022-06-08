@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css';
 import CourseScreen from './pages/CourseScreen';
 import HomeScreen from './pages/HomeScreen';

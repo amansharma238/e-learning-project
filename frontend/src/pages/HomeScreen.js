@@ -1,9 +1,10 @@
-import React, { useEffect, useReducer, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useReducer } from "react";
 // import { useData } from "../useData";
 import logger from 'use-reducer-logger';
 import axios from "axios";
-
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Course from "../components/Course";
 const reducer = (state, action) => {
     switch (action.type) {
         case 'FETCH_REQUEST':
@@ -43,40 +44,21 @@ function HomeScreen() {
     }, []);
     return (
         <div>
-            <h1>
-                Top Courses
-            </h1>
+            <h1>Top Courses</h1>
             <div className='courses'>
-                {
-                    loading ? (
-                        <div>Loading...</div>
-                    ) : error ? (
-                        <div>{error}</div>
-                    ) :
-                        (
-                            courses && courses.map((course) => {
-                                return (
-                                    <div className='course' key={course.id}>
-                                        <Link to={`/course/${course.id}`}>
-                                            <img src={course.image} alt={course.name} />
-                                        </Link>
-                                        <div className='course-info'>
-                                            <Link to={`/course/${course.id}`}>
-                                                <h5>{course.name}</h5>
-                                            </Link>
-                                            <p>{course.description}</p>
-                                            <div>
-                                                {course.hours} Hours
-                                                <span><strong>${course.price}</strong>
-                                                </span>
-                                            </div>
-                                            <button>Add to cart</button>
-                                        </div>
-                                    </div>
-                                );
-                            }
-                            )
-                        )
+                {loading ? (
+                    <div>Loading...</div>
+                ) : error ? (
+                    <div>{error}</div>
+                ) : (
+                    <Row>
+                        {courses.map((course) =>
+                            <Col key={course.id} sm={6} md={4} lg={3} className="mb-3">
+                                <Course course={course}></Course>
+                            </Col>
+                        )}
+                    </Row>
+                )
                 }
             </div>
         </div>);

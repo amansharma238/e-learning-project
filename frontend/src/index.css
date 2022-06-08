@@ -21,6 +21,11 @@ main {
   justify-content: center;
 }
 
+.rating span {
+  color: #ffc000;
+
+}
+
 .course {
   border: 1px #404040 solid;
   margin: 1rem;
