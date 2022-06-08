@@ -1,7 +1,8 @@
 {
   "name": "nodejs-rest-api-starter",
+  "type": "module",
   "version": "1.0.0",
-  "description": "",
+  "description": "```\r src\r     middlewares\r         Middle Ware related code goes here, for example authentication, authrization middleware\r     models\r         Mongoose Entity models and schema definitions go here \r     routes\r         API routes related code belongs here\r     utils\r         All the utilities and related code goes here\r     index.js -> use this file to define the server and express app\r ```",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -13,14 +14,16 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
-    "express": "^4.17.2",
+    "express": "^4.18.1",
+    "mongodb": "^4.6.0",
     "mongoose": "^6.1.5"
   },
   "devDependencies": {
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "nodemon": "^2.0.12",
+    "nodemon": "^2.0.16",
     "prettier": "^2.3.2"
-  }
+  },
+  "keywords": []
 }

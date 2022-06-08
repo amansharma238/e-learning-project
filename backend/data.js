@@ -1,0 +1,58 @@
+const data = {
+    courses: [
+        {
+            id: 1,
+            name: "Build a fullstack Netflix Clone",
+            category: "computer science",
+            hours: 56,
+            price: 999,
+            image: '/images/p1.jpg',
+            numberofpurchase: 10,
+            rating: 4.5,
+            numReviews: 5,
+            Instructor: "Arnav Sharma",
+            description: 'React,firebase,Redux comes together to create this beautiful Netflix clone',
+        },
+        {
+            id: 2,
+            name: "3D Earth - WebGl in action",
+            category: "Physics",
+            hours: 50,
+            price: 199,
+            image: '/images/p1.jpg',
+            numberofpurchase: 8,
+            rating: 4.1,
+            numReviews: 2,
+            Instructor: "Sumit Kumar",
+            description: 'Using WebG',
+        },
+        {
+            id: 3,
+            name: "Build a fullstack Netflix Clone",
+            category: "computer science",
+            hours: 56,
+            price: 999,
+            image: '/images/p1.jpg',
+            numberofpurchase: 10,
+            rating: 4.5,
+            numReviews: 5,
+            Instructor: "Arnav Sharma",
+            description: 'React,firebase,Redux comes together to create this beautiful Netflix clone',
+        },
+        {
+            id: 4,
+            name: "Build a fullstack Netflix Clone",
+            category: "computer science",
+            hours: 56,
+            price: 999,
+            image: '/images/p1.jpg',
+            numberofpurchase: 10,
+            rating: 4.5,
+            numReviews: 5,
+            Instructor: "Arnav Sharma",
+            description: 'React,firebase,Redux comes together to create this beautiful Netflix clone',
+        },
+    ]
+}
+
+export default data;
