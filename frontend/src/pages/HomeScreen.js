@@ -5,6 +5,7 @@ import axios from "axios";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Course from "../components/Course";
+import { Helmet } from "react-helmet-async";
 const reducer = (state, action) => {
     switch (action.type) {
         case 'FETCH_REQUEST':
@@ -44,6 +45,9 @@ function HomeScreen() {
     }, []);
     return (
         <div>
+            <Helmet>
+                <title>E-Learning</title>
+            </Helmet>
             <h1>Top Courses</h1>
             <div className='courses'>
                 {loading ? (

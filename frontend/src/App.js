@@ -70,7 +70,7 @@ function App() {
       <div className='d-flex flex-column site-container'>
         <header>
           <Navbar bg="dark" variant="dark">
-            <Container>
+            <Container className='mb-3'>
               <LinkContainer to="">
                 <Navbar.Brand>Edemy</Navbar.Brand>
               </LinkContainer>
