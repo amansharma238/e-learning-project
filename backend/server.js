@@ -6,7 +6,7 @@ app.get('/api/courses', (req, res) => {
     res.send(data.courses);
 })
 
-app.get('/api/courses/id/:id', (req, res) => {
+app.get('/api/courses/:id', (req, res) => {
     const course = data.courses.find((x) => x.id == req.params.id);
     if (course)
         res.send(course);

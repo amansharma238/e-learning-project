@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from "react";
+import React, { useContext, useEffect, useReducer } from "react";
 import { useParams } from "react-router-dom";
 // import { useData } from "../useData";
 import axios from "axios";
@@ -9,6 +9,10 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Helmet } from "react-helmet-async";
+import LoadingBox from "../components/LoadingBox";
+import MessageBox from "../components/MessageBox";
+import { getError } from "../utils/utils";
+import { Store } from "../Store";
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -27,7 +31,8 @@ const reducer = (state, action) => {
 function CourseScreen() {
 
     const params = useParams();
-    const { id } = params;
+    let { id } = params;
+    id = parseInt(id);
     // const { data } = useData();
     // let course = data.courses.filter(element => element.id == id);
     console.log(id);
@@ -40,19 +45,31 @@ function CourseScreen() {
         const fetchData = async () => {
             dispatch({ type: 'FETCH_REQUEST' });
             try {
-                const result = await axios.get(`/api/courses/id/${id}`);
+                const result = await axios.get(`/api/courses/${id}`);
                 dispatch({ type: 'FETCH_SUCCESS', payload: result.data })
 
             } catch (err) {
-                dispatch({ type: 'FETCH_FAIL', payload: err.message })
+                dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
             }
         };
         fetchData();
     }, [id]);
+
+    const { state, dispatch: ctxDispatch } = useContext(Store);
+    const { cart } = state;
+    const addToCartHandler = async () => {
+        const existItem = cart.cartItems.find((x) => x.id === course.id);
+        const quantity = existItem ? existItem.quantity + 1 : 1;
+        const { data } = await axios.get(`/api/courses/${course.id}`);
+        console.log("data", data);
+        ctxDispatch({ type: 'CART_ADD_ITEM', payload: { ...course, quantity } });
+    }
+
     return loading ? (
-        <div>Loading...</div>) : error ? (
-            <div>{error}</div>
-        ) : (
+        <LoadingBox />
+    ) : error ? (
+        <MessageBox variant="danger" error={error} />
+    ) : (
         <div>
             <Row>
                 <Col md={6}>
@@ -84,7 +101,7 @@ function CourseScreen() {
                             <Card.Body>
                                 <ListGroup variant="flush">
                                     <div className="d-grid">
-                                        <Button variant="primary">
+                                        <Button onClick={addToCartHandler} variant="primary">
                                             Add to Cart
                                         </Button>
                                         <Button variant="success">
