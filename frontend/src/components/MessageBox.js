@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 export default function MessageBox(props) {
-    const { variant, error } = props;
     return (
-        <Alert variant={variant || 'info'}>{error}</Alert>
+        <Alert variant={props.variant || 'info'}>{props.children}</Alert>
     );
 }
 
 MessageBox.propTypes = {
     variant: PropTypes.string,
-    error: PropTypes.string,
+    children: PropTypes.any
 };

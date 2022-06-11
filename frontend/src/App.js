@@ -11,6 +11,9 @@ import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Store } from './Store';
+import CartScreen from './pages/CartScreen';
+import { Link } from 'react-router-dom';
+import SigninScreen from './pages/SigninScreen';
 let data = {
   courses: [
     {
@@ -82,12 +85,14 @@ function App() {
                 <Navbar.Brand>Edemy</Navbar.Brand>
               </LinkContainer>
               <Nav className="me-auto">
-                Cart
-                {cart.cartItems.length > 0 && (
-                  <Badge pill bg="danger">
-                    {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
-                  </Badge>
-                )}
+                <Link to="/cart">
+                  Cart
+                  {cart.cartItems.length > 0 && (
+                    <Badge pill bg="danger">
+                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                    </Badge>
+                  )}
+                </Link>
               </Nav>
             </Container>
           </Navbar>
@@ -96,6 +101,8 @@ function App() {
           <Mycontext.Provider value={{ data }}>
             <Routes>
               <Route path='/course/:id' element={<CourseScreen />} />
+              <Route path='/cart' element={<CartScreen />} />
+              <Route path='/signin' element={<SigninScreen />} />
               <Route path='/' element={<HomeScreen />} />
             </Routes>
           </Mycontext.Provider>

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useReducer } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 // import { useData } from "../useData";
 import axios from "axios";
 import Row from 'react-bootstrap/Row';
@@ -29,7 +29,7 @@ const reducer = (state, action) => {
 };
 
 function CourseScreen() {
-
+    const navigate = useNavigate();
     const params = useParams();
     let { id } = params;
     id = parseInt(id);
@@ -57,12 +57,14 @@ function CourseScreen() {
 
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const { cart } = state;
+    const existItem = cart.cartItems.find((x) => x.id === course.id);
+
     const addToCartHandler = async () => {
-        const existItem = cart.cartItems.find((x) => x.id === course.id);
-        const quantity = existItem ? existItem.quantity + 1 : 1;
+        const quantity = 1;
         const { data } = await axios.get(`/api/courses/${course.id}`);
         console.log("data", data);
         ctxDispatch({ type: 'CART_ADD_ITEM', payload: { ...course, quantity } });
+        navigate('/cart');
     }
 
     return loading ? (
@@ -102,7 +104,7 @@ function CourseScreen() {
                                 <ListGroup variant="flush">
                                     <div className="d-grid">
                                         <Button onClick={addToCartHandler} variant="primary">
-                                            Add to Cart
+                                            {existItem ? "Go to Cart" : "Add to Cart"}
                                         </Button>
                                         <Button variant="success">
                                             Buy
