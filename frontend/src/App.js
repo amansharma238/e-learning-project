@@ -18,6 +18,8 @@ import { Link } from 'react-router-dom';
 import SigninScreen from './pages/SigninScreen';
 import AddressScreen from './pages/AddressScreen';
 import SignupScreen from './pages/SignupScreen';
+import PaymentMethodScreen from './pages/PaymentMethodScreen';
+import PlaceOrderScreen from './pages/PlaceOrderScreen';
 let data = {
   courses: [
     {
@@ -83,6 +85,7 @@ function App() {
     ctxDispatch({ type: 'USER_SIGNOUT' });
     localStorage.removeItem('userInfo');
     localStorage.removeItem('Address');
+    localStorage.removeItem('paymentMethod');
   }
 
 
@@ -136,6 +139,8 @@ function App() {
               <Route path='/signin' element={<SigninScreen />} />
               <Route path='/signup' element={<SignupScreen />} />
               <Route path='/address' element={<AddressScreen />} />
+              <Route path='/payment' element={<PaymentMethodScreen />} />
+              <Route path='/placeorder' element={<PlaceOrderScreen />} />
               <Route path='/' element={<HomeScreen />} />
             </Routes>
           </Mycontext.Provider>
