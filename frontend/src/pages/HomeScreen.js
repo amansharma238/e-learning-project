@@ -59,7 +59,7 @@ function HomeScreen() {
                 ) : (
                     <Row>
                         {courses.map((course) =>
-                            <Col key={course.id} sm={6} md={4} lg={3} className="mb-3">
+                            <Col key={course._id} sm={6} md={4} lg={3} className="mb-3">
                                 <Course course={course}></Course>
                             </Col>
                         )}

@@ -13,7 +13,7 @@ function Course(props) {
     const navigate = useNavigate();
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const { cart } = state;
-    const existItem = cart.cartItems.find((x) => x.id === course.id);
+    const existItem = cart.cartItems.find((x) => x._id === course._id);
 
     const addToCartHandler = async () => {
         const quantity = 1;
@@ -21,12 +21,12 @@ function Course(props) {
         navigate('/cart');
     }
     return (
-        <Card key={course.id}>
-            <Link to={`/course/${course.id}`}>
+        <Card key={course._id}>
+            <Link to={`/course/${course.name}`}>
                 <img src={course.image} className="card-img-top" alt={course.name} />
             </Link>
             <Card.Body>
-                <Link to={`/course/${course.id}`}>
+                <Link to={`/course/${course._id}`}>
                     <Card.Title>{course.name}</Card.Title>
                 </Link>
                 <Rating rating={course.rating} numReviews={course.numReviews} />

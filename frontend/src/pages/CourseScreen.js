@@ -31,11 +31,10 @@ const reducer = (state, action) => {
 function CourseScreen() {
     const navigate = useNavigate();
     const params = useParams();
-    let { id } = params;
-    id = parseInt(id);
+    let { name } = params;
     // const { data } = useData();
     // let course = data.courses.filter(element => element.id == id);
-    console.log(id);
+    console.log(name);
     const [{ loading, error, course }, dispatch] = useReducer(reducer, {
         course: {},
         loading: true,
@@ -45,7 +44,7 @@ function CourseScreen() {
         const fetchData = async () => {
             dispatch({ type: 'FETCH_REQUEST' });
             try {
-                const result = await axios.get(`/api/courses/${id}`);
+                const result = await axios.get(`/api/courses/${name}`);
                 dispatch({ type: 'FETCH_SUCCESS', payload: result.data })
 
             } catch (err) {
@@ -53,15 +52,15 @@ function CourseScreen() {
             }
         };
         fetchData();
-    }, [id]);
+    }, [name]);
 
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const { cart } = state;
-    const existItem = cart.cartItems.find((x) => x.id === course.id);
+    const existItem = cart.cartItems.find((x) => x._id === course._id);
 
     const addToCartHandler = async () => {
         const quantity = 1;
-        const { data } = await axios.get(`/api/courses/${course.id}`);
+        const { data } = await axios.get(`/api/courses/${course.name}`);
         console.log("data", data);
         ctxDispatch({ type: 'CART_ADD_ITEM', payload: { ...course, quantity } });
         navigate('/cart');

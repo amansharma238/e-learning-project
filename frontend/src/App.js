@@ -1,4 +1,6 @@
 import React, { useContext } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css';
 import CourseScreen from './pages/CourseScreen';
@@ -6,8 +8,8 @@ import HomeScreen from './pages/HomeScreen';
 import Mycontext from './context';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import NavDropDown from 'react-bootstrap/NavDropdown';
 import Badge from 'react-bootstrap/Badge';
-
 import Container from 'react-bootstrap/Container';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Store } from './Store';
@@ -72,12 +74,19 @@ let data = {
 }
 
 function App() {
-  const { state } = useContext(Store);
-  const { cart } = state;
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { cart, userInfo } = state;
+
+  const signoutHandler = () => {
+    ctxDispatch({ type: 'USER_SIGNOUT' });
+    localStorage.removeItem('userInfo')
+  }
+
 
   return (
     <BrowserRouter>
       <div className='d-flex flex-column site-container'>
+        <ToastContainer position='bottom-center' limit={1} />
         <header>
           <Navbar bg="dark" variant="dark">
             <Container className='mb-3'>
@@ -85,7 +94,7 @@ function App() {
                 <Navbar.Brand>Edemy</Navbar.Brand>
               </LinkContainer>
               <Nav className="me-auto">
-                <Link to="/cart">
+                <Link to="/cart" className='nav-link'>
                   Cart
                   {cart.cartItems.length > 0 && (
                     <Badge pill bg="danger">
@@ -93,6 +102,25 @@ function App() {
                     </Badge>
                   )}
                 </Link>
+                {userInfo ? (
+                  <NavDropDown title={userInfo.name} id="basic-nav-dropdown">
+                    <LinkContainer to="/profile">
+                      <NavDropDown.Item>User Profile</NavDropDown.Item>
+                    </LinkContainer>
+                    <LinkContainer to="/orderhistory">
+                      <NavDropDown.Item>Order history</NavDropDown.Item>
+                    </LinkContainer>
+                    <NavDropDown.Divider />
+                    <Link className='dropdown-item' to='#signout' onClick={signoutHandler}>
+                      Sign Out
+                    </Link>
+                  </NavDropDown>
+                ) : (
+                  <Link className="nav-link" to="/signin">
+                    Sign In
+                  </Link>
+                )
+                }
               </Nav>
             </Container>
           </Navbar>
@@ -100,7 +128,7 @@ function App() {
         <main>
           <Mycontext.Provider value={{ data }}>
             <Routes>
-              <Route path='/course/:id' element={<CourseScreen />} />
+              <Route path='/course/:name' element={<CourseScreen />} />
               <Route path='/cart' element={<CartScreen />} />
               <Route path='/signin' element={<SigninScreen />} />
               <Route path='/' element={<HomeScreen />} />
