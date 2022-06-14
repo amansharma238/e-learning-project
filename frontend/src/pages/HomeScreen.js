@@ -50,8 +50,8 @@ function HomeScreen() {
             <Helmet>
                 <title>E-Learning</title>
             </Helmet>
-            <h1>Top Courses</h1>
-            <div className='courses'>
+            <div className='courses px-5'>
+                <h1>Top Courses</h1>
                 {loading ? (
                     <LoadingBox />
                 ) : error ? (

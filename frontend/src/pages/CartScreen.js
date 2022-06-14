@@ -27,12 +27,12 @@ export default function CartScreen() {
     }
 
     return (
-        <div>
+        <div className="courses">
             <Helmet>
                 <title>Cart</title>
             </Helmet>
-            <h1>Courses in Cart</h1>
             <Row>
+                <h1>Courses in Cart</h1>
                 <Col md={8}>
                     {cartItems.length === 0 ? (
                         <MessageBox>

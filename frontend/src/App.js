@@ -20,6 +20,7 @@ import AddressScreen from './pages/AddressScreen';
 import SignupScreen from './pages/SignupScreen';
 import PaymentMethodScreen from './pages/PaymentMethodScreen';
 import PlaceOrderScreen from './pages/PlaceOrderScreen';
+import OrderScreen from './pages/OrderScreen';
 let data = {
   courses: [
     {
@@ -141,6 +142,8 @@ function App() {
               <Route path='/address' element={<AddressScreen />} />
               <Route path='/payment' element={<PaymentMethodScreen />} />
               <Route path='/placeorder' element={<PlaceOrderScreen />} />
+              <Route path='/orders/:id' element={<OrderScreen />} />
+
               <Route path='/' element={<HomeScreen />} />
             </Routes>
           </Mycontext.Provider>

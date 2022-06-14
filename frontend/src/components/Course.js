@@ -26,7 +26,7 @@ function Course(props) {
                 <img src={course.image} className="card-img-top" alt={course.name} />
             </Link>
             <Card.Body>
-                <Link to={`/course/${course._id}`}>
+                <Link to={`/course/${course.name}`}>
                     <Card.Title>{course.name}</Card.Title>
                 </Link>
                 <Rating rating={course.rating} numReviews={course.numReviews} />

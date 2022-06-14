@@ -71,10 +71,10 @@ function CourseScreen() {
     ) : error ? (
         <MessageBox variant="danger" error={error} />
     ) : (
-        <div>
+        <div className="courses">
             <Row>
                 <Col md={6}>
-                    <h1>Course Content</h1>
+                    <h2>Course Content</h2>
                 </Col>
                 <Col md={6}>
                     <img className="img-large" src={course.image} alt={course.name}></img>
@@ -83,7 +83,7 @@ function CourseScreen() {
                             <Helmet>
                                 <title>{course.name}</title>
                             </Helmet>
-                            <h1>{course.name}</h1>
+                            <h2>{course.name}</h2>
                         </ListGroup.Item>
                         <ListGroup.Item>
                             <Rating
@@ -101,11 +101,11 @@ function CourseScreen() {
                         <Card>
                             <Card.Body>
                                 <ListGroup variant="flush">
-                                    <div className="d-grid">
-                                        <Button onClick={addToCartHandler} variant="primary">
+                                    <div className="text-center">
+                                        <Button onClick={addToCartHandler} variant="primary" style={{ width: 120 }}>
                                             {existItem ? "Go to Cart" : "Add to Cart"}
-                                        </Button>
-                                        <Button variant="success">
+                                        </Button>{' '}
+                                        <Button variant="success" style={{ width: 100 }}>
                                             Buy
                                         </Button>
                                     </div>

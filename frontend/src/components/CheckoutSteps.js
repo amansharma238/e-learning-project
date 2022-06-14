@@ -6,12 +6,12 @@ import PropTypes from 'prop-types';
 export default function CheckoutSteps(props) {
     const { step1, step2, step3, step4 } = props;
     return (
-        <Row className="checkout-steps">
+        <Row className="checkout-steps mb-3" style={{ width: '90vw', margin: 'auto' }}>
             <Col className={step1 ? 'active' : ''}>Sign-In</Col>
             <Col className={step2 ? 'active' : ''}>Add Address</Col>
             <Col className={step3 ? 'active' : ''}>Payment</Col>
             <Col className={step4 ? 'active' : ''}>Place Order</Col>
-        </Row>
+        </Row >
     )
 }
 

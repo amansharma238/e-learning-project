@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import seedRouter from "./src/routes/seedRoutes.js";
 import courseRouter from "./src/routes/courseRoutes.js";
 import userRouter from "./src/routes/userRoutes.js";
+import orderRouter from "./src/routes/orderRoutes.js";
 
 dotenv.config();
 
@@ -17,6 +18,11 @@ mongoose.connect(process.env.MONGODB_URI).then(() => {
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.get('/api/keys/paypal', (req, res) => {
+    res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
+});
+
 
 app.use('/api/seed', seedRouter);
 
@@ -46,6 +52,7 @@ app.use('/api/courses', courseRouter);
 
 app.use('/api/users', userRouter);
 
+app.use('/api/orders', orderRouter);
 
 // error in server this middleware will run
 app.use((err, req, res, next) => {

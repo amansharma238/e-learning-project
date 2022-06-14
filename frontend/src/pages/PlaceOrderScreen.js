@@ -1,16 +1,38 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useReducer } from 'react'
 import Col from 'react-bootstrap/esm/Col'
 import Row from 'react-bootstrap/esm/Row'
 import Card from 'react-bootstrap/Card'
 import { Helmet } from 'react-helmet-async'
 import CheckoutSteps from '../components/CheckoutSteps'
 import { Store } from '../Store'
-import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import ListGroup from 'react-bootstrap/ListGroup'
 import Button from 'react-bootstrap/esm/Button'
+import { getError } from '../utils/utils'
+import { toast } from 'react-toastify'
+import Axios from 'axios'
+import LoadingBox from '../components/LoadingBox'
+
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'CREATE_REQUEST':
+            return { ...state, loading: true };
+        case 'CREATE_SUCCESS':
+            return { ...state, loading: false };
+        case 'CREATE_FAIL':
+            return { ...state, loading: false };
+        default:
+            return state;
+    }
+}
 
 export default function PlaceOrderScreen() {
     const navigate = useNavigate();
+
+    const [{ loading }, dispatch] = useReducer(reducer, {
+        loading: false,
+    });
+
     const { state, dispatch: ctxDispatch } = useContext(Store);
     const { cart, userInfo } = state;
 
@@ -25,7 +47,34 @@ export default function PlaceOrderScreen() {
     cart.totalPrice = cart.itemsPrice + cart.taxPrice;
 
     const placeOrderHandler = async () => {
+        try {
+            dispatch({ type: 'CREATE_REQUEST' });
+            const { data } = await Axios.post(
+                'api/orders',
+                {
+                    orderItems: cart.cartItems,
+                    Address: cart.Address,
+                    paymentMethod: cart.paymentMethod,
+                    itemsPrice: cart.itemsPrice,
+                    taxPrice: cart.taxPrice,
+                    totalPrice: cart.totalPrice,
+                },
+                {
+                    headers: {
+                        authorization: `Bearer ${userInfo.token}`,
+                    },
+                }
+            );
+            ctxDispatch({ type: 'CART_CLEAR' });
+            dispatch({ ttpe: 'CREATE_SUCCESS' });
+            localStorage.removeItem('cartItems');
+            navigate(`/orders/${data.order._id}`);
 
+        } catch (err) {
+            console.log("hi", err);
+            dispatch({ type: 'CREATE_FAIL' });
+            toast.error(getError(err));
+        }
     }
 
     useEffect(() => {
@@ -35,13 +84,13 @@ export default function PlaceOrderScreen() {
     }, [cart, navigate]);
 
     return (
-        <div>
-            <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
+        <div className='courses'>
             <Helmet>
                 <title>Preview Order</title>
             </Helmet>
-            <h1 className='my-3'>Preview Order</h1>
+            <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
             <Row>
+                <h2 className='my-3'>Preview Order</h2>
                 <Col md={8}>
                     <Card className="mb-3">
                         <Card.Body>
@@ -128,6 +177,7 @@ export default function PlaceOrderScreen() {
                                             Place Order
                                         </Button>
                                     </div>
+                                    {loading && <LoadingBox></LoadingBox>}
                                 </ListGroup.Item>
                             </ListGroup>
                         </Card.Body>
