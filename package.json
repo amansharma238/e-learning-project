@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/amansharma238/e-learning-project/issues"
   },
-  "homepage": "https://github.com/amansharma238/e-learning-project#readme"
+  "homepage": "https://github.com/amansharma238/e-learning-project#readme",
+  "engines": {
+    "node": "16.15.0"
+  }
 }
