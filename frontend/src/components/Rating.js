@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Rating(props) {
-    const { rating, numReviews } = props;
+    const { rating, numReviews, caption } = props;
     return (
         <div className="rating">
             <span>
@@ -29,7 +29,11 @@ function Rating(props) {
                 <i className={rating >= 5 ? 'fas fa-star' :
                     rating >= 4.5 ? 'fas fa-star-half-alt' : 'far fa-star'} />
             </span>
-            <span> {numReviews} Reviews</span>
+            {caption ? (
+                <span>{caption}</span>
+            ) : (
+                <span>{' ' + numReviews + ' reviews'}</span>
+            )}
         </div>
     );
 }
@@ -38,5 +42,6 @@ export default Rating;
 
 Rating.propTypes = {
     rating: PropTypes.number,
-    numReviews: PropTypes.number
+    numReviews: PropTypes.number,
+    caption: PropTypes.string
 };

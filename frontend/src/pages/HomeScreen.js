@@ -8,6 +8,7 @@ import Course from "../components/Course";
 import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+
 const reducer = (state, action) => {
     switch (action.type) {
         case 'FETCH_REQUEST':
@@ -31,6 +32,7 @@ function HomeScreen() {
         loading: true,
         error: '',
     });
+
     useEffect(() => {
         const fetchData = async () => {
             dispatch({ type: 'FETCH_REQUEST' });
@@ -50,8 +52,8 @@ function HomeScreen() {
             <Helmet>
                 <title>E-Learning</title>
             </Helmet>
-            <div className='courses px-5'>
-                <h1>Top Courses</h1>
+            <h1>Top Courses</h1>
+            <div className='courses'>
                 {loading ? (
                     <LoadingBox />
                 ) : error ? (

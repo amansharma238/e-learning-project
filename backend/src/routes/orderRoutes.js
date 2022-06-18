@@ -1,6 +1,7 @@
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
-import { isAuth } from '../middlewares/middleware.js';
+import Course from '../models/courseModel.js'
+import { isAuth, isAdmin } from '../middlewares/middleware.js';
 import Order from '../models/orderModel.js';
 import User from '../models/userModel.js';
 import { generateToken } from '../utils/utils.js';
@@ -20,6 +21,59 @@ orderRouter.post('/', isAuth, expressAsyncHandler(async (req, res) => {
     const order = await newOrder.save();
     res.status(201).send({ message: 'New Order Created', order });
 }));
+
+orderRouter.get(
+    '/summary',
+    isAuth,
+    isAdmin,
+    expressAsyncHandler(async (req, res) => {
+        const orders = await Order.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    numOrders: { $sum: 1 },
+                    totalSales: { $sum: '$totalPrice' },
+                },
+            },
+        ]);
+        const users = await User.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    numUsers: { $sum: 1 },
+                },
+            },
+        ]);
+        const dailyOrders = await Order.aggregate([
+            {
+                $group: {
+                    _id: { $dateToString: { format: '%Y-%m-%d', date: '$createdAt' } },
+                    orders: { $sum: 1 },
+                    sales: { $sum: '$totalPrice' },
+                },
+            },
+            { $sort: { _id: 1 } },
+        ]);
+        const courseCategories = await Course.aggregate([
+            {
+                $group: {
+                    _id: '$category',
+                    count: { $sum: 1 },
+                },
+            },
+        ]);
+        res.send({ users, orders, dailyOrders, courseCategories });
+    })
+);
+
+
+
+orderRouter.get('/mine', isAuth, expressAsyncHandler(async (req, res) => {
+    const orders = await Order.find({ user: req.user._id });
+    res.send(orders);
+})
+);
+
 
 orderRouter.get('/:id', isAuth, expressAsyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);

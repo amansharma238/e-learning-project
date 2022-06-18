@@ -49,7 +49,7 @@ main {
 }
 
 .small-container {
-  max-width: 500px;
+  max-width: 600px;
 }
 
 .checkout-steps>div {
@@ -60,4 +60,34 @@ main {
 .checkout-steps>div.active {
   border-bottom: 0.2rem solid #103667;
   color: #103667;
+}
+
+/* sidebar */
+.navbar-brand {
+  font-weight: bold;
+}
+
+.side-navbar {
+  width: 240px;
+  height: 100%;
+  position: absolute;
+  left: -300px;
+  background-color: #100901;
+  transition: 0.5s;
+}
+
+.site-container {
+  transition: 0.4s;
+}
+
+.active-cont {
+  margin-left: 240px;
+}
+
+.active-nav {
+  left: 0;
+}
+
+.text-bold {
+  font-weight: bold;
 }
