@@ -27,7 +27,7 @@ export default function CartScreen() {
     }
 
     return (
-        <div className="courses">
+        <div>
             <Helmet>
                 <title>Cart</title>
             </Helmet>
@@ -43,14 +43,14 @@ export default function CartScreen() {
                             {cartItems.map((item) => (
                                 <ListGroup.Item key={item._id}>
                                     <Row className="align-items-center">
-                                        <Col md={7}>
-                                            <img src={item.image} alt={item.name} className="img-fluid rounded img-thumbnail">
-
-                                            </img>{' '}
-                                            <Link to={`/course/${item._id}`}>{item.name}</Link>
+                                        <Col md={8}>
+                                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                                                <img src={item.image} alt={item.name} className="rounded img-thumbnail img-fluid" />{' '}
+                                                <Link to={`/course/${item.name}`} style={{ textDecoration: 'none', margin: '0% 0% 0% 2%' }}>{item.name}</Link>
+                                            </div>
                                         </Col>
                                         <Col md={3}>${item.price}</Col>
-                                        <Col md={2}>
+                                        <Col md={1}>
                                             <Button
                                                 onClick={() => removeItemHandler(item)}
                                                 variant="light">

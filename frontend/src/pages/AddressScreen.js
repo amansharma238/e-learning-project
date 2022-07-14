@@ -10,6 +10,7 @@ export default function AddressScreen() {
     const { state, dispatch: ctxDispatch } = useContext(Store);
 
     const {
+        fullBox,
         userInfo,
         cart: { Address },
     } = state;
@@ -37,6 +38,7 @@ export default function AddressScreen() {
                 city,
                 postalCode,
                 country,
+                location: Address.location,
             },
         });
 
@@ -48,10 +50,16 @@ export default function AddressScreen() {
                 city,
                 postalCode,
                 country,
+                location: Address.location,
             })
         );
         navigate('/payment');
     }
+
+    useEffect(() => {
+        ctxDispatch({ type: 'SET_FULLBOX_OFF' });
+    }, [ctxDispatch, fullBox]);
+
 
     return (
         <div>
@@ -107,6 +115,25 @@ export default function AddressScreen() {
                         >
                         </Form.Control>
                     </Form.Group>
+                    <div className="mb-3">
+                        <Button
+                            id="chooseOnMap"
+                            type="button"
+                            variant="light"
+                            onClick={() => navigate('/map')}
+                        >
+                            Choose Location On Map
+                        </Button>
+                        {Address.location && Address.location.lat ? (
+                            <div>
+                                LAT: {Address.location.lat}
+                                LNG:{Address.location.lng}
+                            </div>
+                        ) : (
+                            <div>No location</div>
+                        )}
+                    </div>
+
                     <div className='mb-3'>
                         <Button variant="primary" type="submit">
                             Continue

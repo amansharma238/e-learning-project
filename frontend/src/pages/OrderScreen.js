@@ -151,6 +151,16 @@ export default function OrderScreen() {
                                 <strong>Address: </strong> {order.Address.address},
                                 {order.Address.city}, {order.Address.postalCode}
                                 ,{order.Address.country}
+                                &nbsp;
+                                {order.Address.location &&
+                                    order.Address.location.lat && (
+                                        <a
+                                            target="_new"
+                                            href={`https://maps.google.com?q=${order.Address.location.lat},${order.Address.location.lng}`}
+                                        >
+                                            Show On Map
+                                        </a>
+                                    )}
                             </Card.Text>
                         </Card.Body>
                     </Card>

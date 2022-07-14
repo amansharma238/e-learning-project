@@ -31,6 +31,14 @@ import SearchScreen from './pages/SearchScreen';
 import ProtectedRoute from './components/ProtectedRoute';
 import DashboardScreen from './pages/DashboardScreen';
 import AdminRoute from './components/AdminRoute';
+import CourseListScreen from './pages/CourseListScreen';
+import CourseEditScreen from './pages/CourseEditScreen';
+import UserListScreen from './pages/UserListScreen';
+import LectureEditScreen from './pages/LectureEditScreen';
+import OrderListScreen from './pages/OrderListScreen';
+import UserEditScreen from './pages/UserEditScreen';
+import MapScreen from './pages/MapScreen';
+// import PublishCourseScreen from './pages/PublishCourseScreen';
 let data = {
   courses: [
     {
@@ -90,7 +98,7 @@ let data = {
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
-  const { cart, userInfo } = state;
+  const { fullBox, cart, userInfo } = state;
 
   const signoutHandler = () => {
     ctxDispatch({ type: 'USER_SIGNOUT' });
@@ -113,11 +121,16 @@ function App() {
     };
     fetchCategories();
   }, []);
+
   return (
     <BrowserRouter>
       <div className={sidebarIsOpen
-        ? 'd-flex flex-column site-container active-cont'
-        : 'd-flex flex-column site-container'
+        ? fullBox
+          ? 'site-container active-cont d-flex flex-column full-box'
+          : 'site-container active-cont d-flex flex-column'
+        : fullBox
+          ? 'site-container d-flex flex-column full-box'
+          : 'site-container d-flex flex-column'
       }
       >
         <ToastContainer position='bottom-center' limit={1} />
@@ -127,9 +140,15 @@ function App() {
               <Button variant='dark' onClick={() => setSidebarIsOpen(!sidebarIsOpen)}>
                 <i className='fas fa-bars'></i>
               </Button>
+
               <LinkContainer to="/">
-                <Navbar.Brand>Edemy</Navbar.Brand>
+                <Navbar.Brand className='mx-3'>Edemy</Navbar.Brand>
               </LinkContainer>
+              {/* {userInfo ? (
+                <Link to='/createcourse' className='nav-link'>
+                  <Button variant="info">Publish your Course</Button>
+                </Link>
+              ) : ''} */}
               <Navbar.Toggle aria-controls='basic-navbar-nav' />
               <Navbar.Collapse id='basic-navbar-nav'>
                 <SearchBox />
@@ -143,18 +162,22 @@ function App() {
                     )}
                   </Link>
                   {userInfo ? (
-                    <NavDropDown title={userInfo.name} id="basic-nav-dropdown">
-                      <LinkContainer to="/profile">
-                        <NavDropDown.Item>User Profile</NavDropDown.Item>
-                      </LinkContainer>
-                      <LinkContainer to="/orderhistory">
-                        <NavDropDown.Item>Order history</NavDropDown.Item>
-                      </LinkContainer>
-                      <NavDropDown.Divider />
-                      <Link className='dropdown-item' to='#signout' onClick={signoutHandler}>
-                        Sign Out
-                      </Link>
-                    </NavDropDown>
+                    <div style={{ display: 'flex' }}>
+                      <NavDropDown title={userInfo.name} id="basic-nav-dropdown">
+                        <LinkContainer to="/profile">
+                          <NavDropDown.Item>User Profile</NavDropDown.Item>
+                        </LinkContainer>
+                        <LinkContainer to="/orderhistory">
+                          <NavDropDown.Item>Order history</NavDropDown.Item>
+                        </LinkContainer>
+                        <NavDropDown.Divider />
+                        <Link className='dropdown-item' to='#signout' onClick={signoutHandler}>
+                          Sign Out
+                        </Link>
+                      </NavDropDown>
+                      <img src={userInfo.profile_pic} alt="profile_pic" className='profile-pic border border-dark border-3' />
+                    </div>
+
                   ) : (
                     <Link className="nav-link" to="/signin">
                       Sign In
@@ -167,8 +190,8 @@ function App() {
                       <LinkContainer to="/admin/dashboard">
                         <NavDropDown.Item>Dashboard</NavDropDown.Item>
                       </LinkContainer>
-                      <LinkContainer to="/admin/products">
-                        <NavDropDown.Item>Products</NavDropDown.Item>
+                      <LinkContainer to="/admin/courses">
+                        <NavDropDown.Item>Courses</NavDropDown.Item>
                       </LinkContainer>
                       <LinkContainer to="/admin/orders">
                         <NavDropDown.Item>Orders</NavDropDown.Item>
@@ -184,6 +207,7 @@ function App() {
             </Container>
           </Navbar>
         </header>
+
         <div className={sidebarIsOpen ?
           'active-nav side-navbar d-flex justify-content-between flex-wrap flex-column'
           : 'side-navbar dflex justify-content-between flex-wrap flex-column'
@@ -206,28 +230,61 @@ function App() {
         </div>
 
         <main>
-          <Mycontext.Provider value={{ data }}>
-            <Routes>
-              <Route path='/course/:name' element={<CourseScreen />} />
-              <Route path='/cart' element={<CartScreen />} />
-              <Route path='/search' element={<SearchScreen />} />
-              <Route path='/signin' element={<SigninScreen />} />
-              <Route path='/signup' element={<SignupScreen />} />
-              <Route path='/address' element={<AddressScreen />} />
-              <Route path='/payment' element={<PaymentMethodScreen />} />
-              <Route path='/placeorder' element={<PlaceOrderScreen />} />
-              <Route path='/orders/:id' element={<ProtectedRoute><OrderScreen /></ProtectedRoute>} />
-              <Route path='/orderhistory' element={<ProtectedRoute><OrderHistoryScreen /></ProtectedRoute>} />
+          <Container className="mt-3">
+            <Mycontext.Provider value={{ data }}>
+              <Routes>
+                <Route path='/course/:name' element={<CourseScreen />} />
+                <Route path='/cart' element={<CartScreen />} />
+                {/* <Route path='/createcourse' element={<PublishCourseScreen />} /> */}
+                <Route path='/search' element={<SearchScreen />} />
+                <Route path='/signin' element={<SigninScreen />} />
+                <Route path='/signup' element={<SignupScreen />} />
+                <Route path='/address' element={<AddressScreen />} />
+                <Route path='/payment' element={<PaymentMethodScreen />} />
+                <Route path='/placeorder' element={<PlaceOrderScreen />} />
+                <Route path='/orders/:id' element={<ProtectedRoute><OrderScreen /></ProtectedRoute>} />
+                <Route path='/orderhistory' element={<ProtectedRoute><OrderHistoryScreen /></ProtectedRoute>} />
+                <Route
+                  path="/map"
+                  element={
+                    <ProtectedRoute>
+                      <MapScreen />
+                    </ProtectedRoute>
+                  }
+                />
 
-              <Route path='/profile' element={
-                <ProtectedRoute>
-                  <ProfileScreen />
-                </ProtectedRoute>} />
-              {/* Admin Routes */}
-              <Route path='/admin/dashboard' element={<AdminRoute><DashboardScreen /></AdminRoute>} />
-              <Route path='/' element={<HomeScreen />} />
-            </Routes>
-          </Mycontext.Provider>
+                <Route path='/profile' element={
+                  <ProtectedRoute>
+                    <ProfileScreen />
+                  </ProtectedRoute>} />
+
+                {/* Admin Routes */}
+                <Route path='/admin/dashboard' element={<AdminRoute><DashboardScreen /></AdminRoute>} />
+                <Route path="/admin/courses" element={<AdminRoute><CourseListScreen /></AdminRoute>} />
+                <Route path="/admin/course/:id" element={<AdminRoute><CourseEditScreen /></AdminRoute>}></Route>
+                <Route path="/admin/course/:id/lecture/:lid" element={<AdminRoute><LectureEditScreen /></AdminRoute>}></Route>
+                <Route
+                  path="/admin/orders"
+                  element={
+                    <AdminRoute>
+                      <OrderListScreen />
+                    </AdminRoute>
+                  }
+                ></Route>
+                <Route path="/admin/users" element={<AdminRoute><UserListScreen /></AdminRoute>}
+                ></Route>
+                <Route
+                  path="/admin/users/:id"
+                  element={
+                    <AdminRoute>
+                      <UserEditScreen />
+                    </AdminRoute>
+                  }
+                ></Route>
+                <Route path='/' element={<HomeScreen />} />
+              </Routes>
+            </Mycontext.Provider>
+          </Container>
         </main>
         <footer>
           <div className='text-center'>All rights reserved</div>

@@ -32,7 +32,7 @@ export default function PaymentMethodScreen() {
     }
 
     return (
-        <div className='courses'>
+        <div>
             <CheckoutSteps step1 step2 step3></CheckoutSteps>
             <div className='container small-container'>
                 <Helmet>

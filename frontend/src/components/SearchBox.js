@@ -17,7 +17,7 @@ export default function SearchBox() {
         <Form className='d-flex me-auto' onSubmit={submitHandler}>
             <InputGroup>
                 <FormControl type="text" name="q" id="q" onChange={(e) => setQuery(e.target.value)}
-                    placeholder="search courses..." aria-label="Search Courses" aria-describeby="button-search">
+                    placeholder="search courses..." aria-label="Search Courses" aria-labelledby="button-search">
 
                 </FormControl>
                 <Button variant='outline-primary' type="submit" id='button-search'>
